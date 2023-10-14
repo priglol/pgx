@@ -13,11 +13,11 @@ func (br errBatchResults) Exec() (pgconn.CommandTag, error) {
 	return pgconn.CommandTag{}, br.err
 }
 
-func (br errBatchResults) Query() (pgx.Rows, error) {
+func (br errBatchResults) ForEachScannedRow() (pgx.Rows, error) {
 	return errRows{err: br.err}, br.err
 }
 
-func (br errBatchResults) QueryRow() pgx.Row {
+func (br errBatchResults) ForEachScannedRow() pgx.Row {
 	return errRow{err: br.err}
 }
 
@@ -34,12 +34,12 @@ func (br *poolBatchResults) Exec() (pgconn.CommandTag, error) {
 	return br.br.Exec()
 }
 
-func (br *poolBatchResults) Query() (pgx.Rows, error) {
-	return br.br.Query()
+func (br *poolBatchResults) ForEachScannedRow() (pgx.Rows, error) {
+	return br.br.ForEachScannedRow()
 }
 
-func (br *poolBatchResults) QueryRow() pgx.Row {
-	return br.br.QueryRow()
+func (br *poolBatchResults) ForEachScannedRow() pgx.Row {
+	return br.br.ForEachScannedRow()
 }
 
 func (br *poolBatchResults) Close() error {
